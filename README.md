@@ -20,7 +20,7 @@ A **ABIRE** enfrentava um gargalo crítico no atendimento: demora nas respostas,
 
 **A solução:** um chatbot automatizado, integrado ao Telegram, capaz de atender simultaneamente múltiplos usuários, coletar dados, enviar e-mails e escalar para humanos — tudo isso sem nenhuma intervenção manual para os fluxos mais comuns.
 
-> Este projeto nasceu de uma demanda real, levantada em reunião presencial com a diretoria da ABIRE, e foi desenvolvido do zero pela equipe do Grupo 8 — FATEC, dentro da disciplina de Engenharia de Software I.
+> Este projeto nasceu de uma demanda real, levantada em reunião presencial com a diretoria da ABIRE, e foi desenvolvido do zero pela equipe do Grupo 8 — FATEC, dentro da disciplina de Linguagem de Programação.
 
 ---
 
