@@ -137,7 +137,7 @@ O processo incluiu:
 | Integrante | Papel |
 |---|---|
 | Rafael Delazeri | Gerente de Projeto |
-| Alexandre Kendee Fushimi Junior | Desenvolvedor |
+| Alexandre Kendee Fushimi Junior | Documentação |
 | Isabela de Oliveira Alves | Desenvolvedora |
 | Rafael Fernandes Farias | Documentação |
 
