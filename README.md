@@ -142,8 +142,8 @@ O processo incluiu:
 | Rafael Fernandes Farias | Documentação |
 
 **Curso:** Análise e Desenvolvimento de Sistemas  
-**Disciplina:** Engenharia de Software I  
-**Orientadora:** Prof.ª Paula Lacerda Rocha  
+**Disciplina:** Linguagem de Programação 
+**Orientadora:** Prof.ª Sandra Bianca 
 **Cliente:** ABIRE — Associação Brasileira das Indústrias Recicladoras  
 
 ---
