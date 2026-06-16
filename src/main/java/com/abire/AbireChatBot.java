@@ -1,12 +1,28 @@
 package com.abire;
 
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
-import javax.mail.*;
-import javax.mail.internet.*;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.TelegramBotsApi;  
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -325,10 +341,16 @@ private static final long   GRUPO_ATENDIMENTO_ID = Long.parseLong(System.getenv(
                 break;
 
             case "aguardando_telefone4":
-                formTemp4.computeIfAbsent(chatIdStr, k -> new HashMap<>()).put("telefone", userMessage);
+                String telefoneLimpo = userMessage.replaceAll("\\D", ""); // remove tudo que não for dígito
+                    if (telefoneLimpo.length() >= 10 && telefoneLimpo.length() <= 11) {
+                formTemp4.computeIfAbsent(chatIdStr, k -> new HashMap<>()).put("telefone", telefoneLimpo);
                 etapaMap.put(chatIdStr, "aguardando_cidade4");
                 enviarMensagem(chatId, "Digite sua Cidade/Estado (ex: São Paulo/SP):");
-                break;
+            } else {
+                enviarMensagem(chatId,
+                "Telefone inválido.\n\nPor favor, envie apenas números com DDD.\nExemplo: 11987654321");
+                }
+            break;
 
             case "aguardando_cidade4":
                 formTemp4.computeIfAbsent(chatIdStr, k -> new HashMap<>()).put("cidade", userMessage);
@@ -415,13 +437,20 @@ private static final long   GRUPO_ATENDIMENTO_ID = Long.parseLong(System.getenv(
         enviarPerguntaFinal(chatId);
     }
 
-    // ==================== ENVIO DE EMAIL ====================
+// ==================== ENVIO DE EMAIL ====================
     private void enviarEmail(String destinatario, String assunto, String corpo) {
+        new Thread(() -> enviarEmailSync(destinatario, assunto, corpo)).start();
+    }
+
+    private void enviarEmailSync(String destinatario, String assunto, String corpo) {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.connectiontimeout", "10000");
+        props.put("mail.smtp.timeout", "10000");
+        props.put("mail.smtp.writetimeout", "10000");
 
         Session session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
